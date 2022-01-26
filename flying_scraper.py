@@ -26,7 +26,7 @@ def search_flights(origin, destination, dep_after_days, return_fl_after_days, sa
     """This function search flights from initial data"""
     driver.get(url)
     for i in range(len(dep_after_days)):
-        # 1. Makes loop for all given departure dates
+        # 1. Iterates through all given departure dates
         global depart_year
         global return_year
         flight_after_days = dep_after_days[i]
@@ -98,7 +98,7 @@ def flight_selector():
     total_inb_fl = len(
         driver.find_element(By.XPATH, '//*[@id="book-form"]/div[2]/div[2]').find_elements(By.CLASS_NAME, 'fly5-result'))
 
-    # 2. Creates loop for all possible flight combinations
+    # 2. Iterates through all possible flight combinations
     for a in range(total_outb_fl):
         for b in range(total_inb_fl):
             # 2.1 Creates list for outbound and inbound flights
@@ -111,13 +111,13 @@ def flight_selector():
             # also this method is needed to wait until JS is working (like collapse element, etc.)
             time.sleep(1)
 
-            # 2.2 Clicks on outbound flight price choices
+            # 2.2 Clicks on outbound flight
             outb_fl_list[a].click()
             time.sleep(1)
             outb_fl_list[a].find_element(By.CLASS_NAME, 'select-flight').click()  # selects cheapest(first) flight
             time.sleep(1)
 
-            # 2.3 Clicks on inbound flight price choices
+            # 2.3 Clicks on inbound flight
             inb_fl_list[b].click()
             time.sleep(1)
             inb_fl_list[b].find_element(By.CLASS_NAME, 'select-flight').click()  # selects cheapest(first) flight
@@ -127,7 +127,7 @@ def flight_selector():
             driver.find_element(By.ID, 'continue-btn').click()
             time.sleep(1)
 
-            # 2.5 Calling price_scraper function for current page
+            # 2.5 Calling price_scraper
             price_scraper()
             driver.find_element(By.TAG_NAME, 'html').send_keys(Keys.HOME)  # Going page up, not necessary
             time.sleep(1)
