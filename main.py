@@ -1,4 +1,4 @@
-'''
+"""
 Task
 Using the following website www.fly540.com you need to collect required data for ALL round trip flight
 combinations from NBO (Nairobi) to MBA (Mombasa) departing 10 and 20 days from the current date
@@ -13,7 +13,7 @@ and inbound flight.
 2. After finishing the task above, please implement additional logic to extract taxes with the same flight
 combinations described above:
 o taxes - There can be many different types of taxes included in the final p
-'''
+"""
 from flying_scraper import search_flights
 
 # Initial data
