@@ -11,10 +11,6 @@ import time
 import random
 from random import randint
 
-# def wait():
-#     return time.sleep(random.uniform(1.5, 3))
-
-
 year = '2022'  # just as example
 driver = webdriver.Chrome(executable_path='C:/Users/jaros/Desktop/Python/WebScraping/chromedriver.exe')
 driver.get('https://www.fly540.com/flights/nairobi-to-mombasa?isoneway=0&currency=USD&depairportcode=NBO&'
@@ -22,7 +18,7 @@ driver.get('https://www.fly540.com/flights/nairobi-to-mombasa?isoneway=0&currenc
            'infant_no=0&searchFlight=&change_flight=')
 '''this driver only for beta'''
 
-result_dic = {
+result_dict = {
     'outbound_departure_airport': [],
     'outbound_arrival_airport': [],
     'outbound_departure_time': [],
@@ -35,36 +31,6 @@ result_dic = {
     'taxes': []
 }
 
-outbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[1]').find_elements(By.CLASS_NAME,
-                                                                                                   'fly5-result')
-inbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[2]/div[2]').find_elements(By.CLASS_NAME,
-                                                                                                         'fly5-result')
-
-for a in outbound_flights_list:
-    time.sleep(2)
-    a.click()
-    time.sleep(2)
-    a.find_element(By.CLASS_NAME, 'select-flight').click()
-    for b in inbound_flights_list:
-        time.sleep(2)
-        b.click()
-        time.sleep(2)
-        b.find_element(By.CLASS_NAME, 'select-flight').click()
-        time.sleep(2)
-        driver.find_element(By.ID, 'continue-btn').click()
-        time.sleep(5)
-
-        break
-    break
-
-'''Scraping airport names'''
-outbound_departure_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[1]/div[2]/div[1]').text
-outbound_arrival_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[1]/div[2]/div[3]').text
-inbound_departure_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[2]/div[2]/div[1]').text
-inbound_arrival_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[2]/div[2]/div[3]').text
-
-'''Scraping dates and times'''
-
 
 def date_formatter(time, date):
     '''Formats time and date, and join them together'''
@@ -73,37 +39,87 @@ def date_formatter(time, date):
     return time + ' ' + date + ' ' + year  # reikia dar prideti metus normaliai is paieskos datos
 
 
-time_list = driver.find_elements(By.CLASS_NAME, 'fly5-ftime')
-date_list = driver.find_elements(By.CLASS_NAME, 'fly5-fdate')
+def flight_selector():
+    #sita reiktu sutrumpinti, man reikia tik len()
+    outbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[1]').find_elements(By.CLASS_NAME,
+                                                                                                       'fly5-result')
+    inbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[2]/div[2]').find_elements(By.CLASS_NAME, 'fly5-result')
 
-outbound_departure_time = date_formatter(time_list[0], date_list[0])
-outbound_arrival_time = date_formatter(time_list[1], date_list[1])
-inbound_departure_time = date_formatter(time_list[2], date_list[2])
-inbound_arrival_time = date_formatter(time_list[3], date_list[3])
+    for a in range(len(outbound_flights_list)):
+        for b in range(len(inbound_flights_list)):
+            outbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[1]').find_elements(
+                By.CLASS_NAME,
+                'fly5-result')
+            inbound_flights_list = driver.find_element(By.XPATH, '//*[@id="book-form"]/div[2]/div[2]').find_elements(
+                By.CLASS_NAME, 'fly5-result')
 
-'''Scraping prices'''
-'''To acces 'View breakdown button(to scrape taxes), we need to scroll down the page, 
-otherwise button is hidden under another button(send message)'''
-time.sleep(5)
+            time.sleep(2)
+            # driver.find_element(By.TAG_NAME, 'html').send_keys(Keys.HOME)#nezinau ar reikia
 
-driver.find_element(By.TAG_NAME, 'html').send_keys(Keys.END)
-time.sleep(5)
-driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[4]/a').click()  # need to wait for element to be located
-time.sleep(5)
-total_price = float(driver.find_element(By.CLASS_NAME, 'fly5-price').text)
-taxes = float(driver.find_element(By.XPATH, '//*[@id="breakdown"]/div/div[1]/div[2]/span').text) + float(
-    driver.find_element(By.XPATH, '//*[@id="breakdown"]/div/div[2]/div[2]/span').text)
+            outbound_flights_list[a].click()
+            time.sleep(2)
+            outbound_flights_list[a].find_element(By.CLASS_NAME, 'select-flight').click()
+            time.sleep(2)
 
-'''Adding reults to dictionary'''
-result_dic['outbound_departure_airport'].append(outbound_departure_airport)
-result_dic['outbound_arrival_airport'].append(outbound_arrival_airport)
-result_dic['outbound_departure_time'].append(outbound_departure_time)
-result_dic['outbound_arrival_time'].append(outbound_arrival_time)
-result_dic['inbound_departure_airport'].append(inbound_departure_airport)
-result_dic['inbound_arrival_airport'].append(inbound_arrival_airport)
-result_dic['inbound_departure_time'].append(inbound_departure_time)
-result_dic['inbound_arrival_time'].append(inbound_arrival_time)
-result_dic['total_price'].append(total_price)
-result_dic['taxes'].append(taxes)
 
-print(result_dic)
+            inbound_flights_list[b].click()
+            time.sleep(2)
+            inbound_flights_list[b].find_element(By.CLASS_NAME, 'select-flight').click()
+            time.sleep(2)
+            driver.find_element(By.ID, 'continue-btn').click()
+            time.sleep(5)
+            #calling price_scraper for current page
+            price_scraper()
+            driver.back()
+            time.sleep(2)
+
+
+
+
+
+
+
+
+def price_scraper():
+    '''Scraping airport names'''
+    outbound_departure_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[1]/div[2]/div[1]').text
+    outbound_arrival_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[1]/div[2]/div[3]').text
+    inbound_departure_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[2]/div[2]/div[1]').text
+    inbound_arrival_airport = driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[2]/div[2]/div[3]').text
+
+    '''Scraping dates and times'''
+    time_list = driver.find_elements(By.CLASS_NAME, 'fly5-ftime')
+    date_list = driver.find_elements(By.CLASS_NAME, 'fly5-fdate')
+    outbound_departure_time = date_formatter(time_list[0], date_list[0])
+    outbound_arrival_time = date_formatter(time_list[1], date_list[1])
+    inbound_departure_time = date_formatter(time_list[2], date_list[2])
+    inbound_arrival_time = date_formatter(time_list[3], date_list[3])
+
+    '''Scraping prices'''
+    '''To acces 'View breakdown button(to scrape taxes), we need to scroll down the page, 
+    otherwise button is hidden under another button(send message)'''
+    time.sleep(2)
+    driver.find_element(By.TAG_NAME, 'html').send_keys(Keys.END)
+    time.sleep(2)
+    driver.find_element(By.XPATH, '//*[@id="fsummary"]/div[4]/a').click()  # need to wait for element to be located
+    time.sleep(2)
+    total_price = float(driver.find_element(By.CLASS_NAME, 'fly5-price').text)
+    taxes = float(driver.find_element(By.XPATH, '//*[@id="breakdown"]/div/div[1]/div[2]/span').text) + float(
+        driver.find_element(By.XPATH, '//*[@id="breakdown"]/div/div[2]/div[2]/span').text)
+
+    '''Adding reults to dictionary'''
+    result_dict['outbound_departure_airport'].append(outbound_departure_airport)
+    result_dict['outbound_arrival_airport'].append(outbound_arrival_airport)
+    result_dict['outbound_departure_time'].append(outbound_departure_time)
+    result_dict['outbound_arrival_time'].append(outbound_arrival_time)
+    result_dict['inbound_departure_airport'].append(inbound_departure_airport)
+    result_dict['inbound_arrival_airport'].append(inbound_arrival_airport)
+    result_dict['inbound_departure_time'].append(inbound_departure_time)
+    result_dict['inbound_arrival_time'].append(inbound_arrival_time)
+    result_dict['total_price'].append(total_price)
+    result_dict['taxes'].append(taxes)
+
+flight_selector()
+print(result_dict)
+df = pd.DataFrame(result_dict)
+df.to_csv('flight_prices.csv', index=False, encoding='utf-8')

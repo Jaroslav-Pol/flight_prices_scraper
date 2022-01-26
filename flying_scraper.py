@@ -22,6 +22,7 @@ from selenium.webdriver.common.by import By
 from datetime import date, timedelta
 import time
 from random import randint
+
 '''Initial data'''
 origin = 'NBO'
 destination = 'MBA'
@@ -69,10 +70,9 @@ def search_flights():
     Select(driver.find_element(By.XPATH, '//*[@id="frmFlight"]/div[1]/div[3]/select')).select_by_value('USD')
     time.sleep(1)
 
-    '''Search flights'''
+    '''Search flights button click'''
     driver.find_element(By.ID, 'searchFlight').click()
 
 
 def select_flight():
     pass
-
