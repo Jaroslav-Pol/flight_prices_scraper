@@ -23,7 +23,7 @@ destination = 'MBA'
 dep_after_days = [10, 20]
 return_fl_after_days = 7
 currency = 'USD'
-save_to = 'results.csv'  # csv
+save_to = 'results1.csv'  # csv
 
 if __name__ == '__main__':
     search_flights(origin, destination, dep_after_days, return_fl_after_days, save_to, url, currency)
