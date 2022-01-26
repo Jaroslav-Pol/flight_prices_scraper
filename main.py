@@ -20,9 +20,10 @@ from flying_scraper import search_flights
 url = 'https://www.fly540.com/'
 origin = 'NBO'
 destination = 'MBA'
-flights_after_days_list = [10, 20]
+dep_after_days = [10, 20]
 return_fl_after_days = 7
+currency = 'USD'
 save_to = 'results.csv'  # csv
 
 if __name__ == '__main__':
-    search_flights(origin, destination, flights_after_days_list, return_fl_after_days, save_to, url)
+    search_flights(origin, destination, dep_after_days, return_fl_after_days, save_to, url, currency)
