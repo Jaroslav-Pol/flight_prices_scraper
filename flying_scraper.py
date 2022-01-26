@@ -23,55 +23,60 @@ from datetime import date, timedelta
 import time
 from random import randint
 
-'''Initial data'''
-origin = 'NBO'
-destination = 'MBA'
-flight_after_days = 10
-return_flight_after_days = 7
+# '''Initial data'''
+# origin = 'NBO'
+# destination = 'MBA'
+# flights_after_days_list = [10, 20]
+# return_fl_after_days = 7
 
 driver = webdriver.Chrome(executable_path='C:/Users/jaros/Desktop/Python/WebScraping/chromedriver.exe')
 driver.get('https://www.fly540.com/')
 
 
-def search_flights():
-    """This function search flights from """
-    '''Selecting origin and destination'''
-    Select(driver.find_element(By.ID, 'depairportcode')).select_by_value(origin)
-    time.sleep(1)
-    Select(driver.find_element(By.ID, 'arrvairportcode')).select_by_value(destination)
-    time.sleep(1)
+def search_flights(origin, destination, flights_after_days_list, return_fl_after_days):
+    """This function search flights fromm initial data"""
 
-    '''Selecting departure date'''
-    depart_date = date.today() + timedelta(days=flight_after_days)
-    depart_month = str(depart_date.month - 1)  # -1 because options are from 0 to 11
-    depart_day = str(depart_date.day)
+    for i in range(len(flights_after_days_list)):
+        flight_after_days = flights_after_days_list[i]
 
-    driver.find_element(By.ID, 'date_from').click()
-    time.sleep(1)  # ?????? do we need this???
-    Select(driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select')).select_by_value(depart_month)
-    driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody').find_element(By.LINK_TEXT,
-                                                                                           depart_day).click()
-    time.sleep(1)
+        '''Selecting origin and destination'''
+        Select(driver.find_element(By.ID, 'depairportcode')).select_by_value(origin)
+        time.sleep(1)
+        Select(driver.find_element(By.ID, 'arrvairportcode')).select_by_value(destination)
+        time.sleep(1)
 
-    '''Selecting return date'''
-    return_date = depart_date + timedelta(days=return_flight_after_days)
-    return_month = str(return_date.month - 1)
-    return_day = str(return_date.day)
+        '''Selecting departure date'''
+        depart_date = date.today() + timedelta(days=flight_after_days)
+        depart_month = str(depart_date.month - 1)  # -1 because options are from 0 to 11
+        depart_day = str(depart_date.day)
 
-    driver.find_element(By.ID, 'date_to').click()
-    time.sleep(1)
-    Select(driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select')).select_by_value(return_month)
-    driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody').find_element(By.LINK_TEXT,
-                                                                                           return_day).click()
-    time.sleep(1)
+        driver.find_element(By.ID, 'date_from').click()
+        time.sleep(1)  # ?????? do we need this???
+        Select(driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select')).select_by_value(depart_month)
+        driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody').find_element(By.LINK_TEXT,
+                                                                                               depart_day).click()
+        time.sleep(1)
 
-    '''Selecting currency'''
+        '''Selecting return date'''
+        return_date = depart_date + timedelta(days=return_fl_after_days)
+        return_month = str(return_date.month - 1)
+        return_day = str(return_date.day)
 
-    Select(driver.find_element(By.XPATH, '//*[@id="frmFlight"]/div[1]/div[3]/select')).select_by_value('USD')
-    time.sleep(1)
+        driver.find_element(By.ID, 'date_to').click()
+        time.sleep(1)
+        Select(driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/div/div/select')).select_by_value(return_month)
+        driver.find_element(By.XPATH, '//*[@id="ui-datepicker-div"]/table/tbody').find_element(By.LINK_TEXT,
+                                                                                               return_day).click()
+        time.sleep(1)
 
-    '''Search flights button click'''
-    driver.find_element(By.ID, 'searchFlight').click()
+        '''Selecting currency'''
+
+        Select(driver.find_element(By.XPATH, '//*[@id="frmFlight"]/div[1]/div[3]/select')).select_by_value('USD')
+        time.sleep(1)
+
+        '''Search flights button click'''
+        driver.find_element(By.ID, 'searchFlight').click()
+        break
 
 
 def select_flight():
