@@ -1,0 +1,9 @@
+outbound_departure_airport,outbound_arrival_airport,outbound_departure_time,outbound_arrival_time,inbound_departure_airport,inbound_arrival_airport,inbound_departure_time,inbound_arrival_time,total_price,taxes
+NBO,MBA,10:30AM Sun 06 Feb 2022,11:40AM Sun 06 Feb 2022,MBA,NBO,12:00PM Sun 13 Feb 2022,1:10PM Sun 13 Feb 2022,92.0,12.0
+NBO,MBA,10:30AM Sun 06 Feb 2022,11:40AM Sun 06 Feb 2022,MBA,NBO,8:20PM Sun 13 Feb 2022,9:30PM Sun 13 Feb 2022,86.0,12.0
+NBO,MBA,6:40PM Sun 06 Feb 2022,7:50PM Sun 06 Feb 2022,MBA,NBO,12:00PM Sun 13 Feb 2022,1:10PM Sun 13 Feb 2022,92.0,12.0
+NBO,MBA,6:40PM Sun 06 Feb 2022,7:50PM Sun 06 Feb 2022,MBA,NBO,8:20PM Sun 13 Feb 2022,9:30PM Sun 13 Feb 2022,86.0,12.0
+NBO,MBA,6:00AM Wed 16 Feb 2022,7:10AM Wed 16 Feb 2022,MBA,NBO,7:30AM Wed 23 Feb 2022,8:40AM Wed 23 Feb 2022,80.0,12.0
+NBO,MBA,6:00AM Wed 16 Feb 2022,7:10AM Wed 16 Feb 2022,MBA,NBO,8:20PM Wed 23 Feb 2022,9:30PM Wed 23 Feb 2022,80.0,12.0
+NBO,MBA,6:40PM Wed 16 Feb 2022,7:50PM Wed 16 Feb 2022,MBA,NBO,7:30AM Wed 23 Feb 2022,8:40AM Wed 23 Feb 2022,80.0,12.0
+NBO,MBA,6:40PM Wed 16 Feb 2022,7:50PM Wed 16 Feb 2022,MBA,NBO,8:20PM Wed 23 Feb 2022,9:30PM Wed 23 Feb 2022,80.0,12.0
